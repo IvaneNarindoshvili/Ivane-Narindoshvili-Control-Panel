@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="ka">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ivane Narindoshvili | Control Panel</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'><path d='M25 5L45 40H5L25 5Z' stroke='%2300d4ff' stroke-width='3' fill='none'/><circle cx='25' cy='25' r='5' fill='%2300d4ff'/></svg>"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="broadcast" class="broadcast-banner">
+      📢 <span id="broadcastMsg"></span>
+      <div class="close-btn" id="closeBtn">×</div>
+    </div>
+
+    <div class="container">
+      <header
+        style="
+          padding: 35px 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <div
+          style="
+            font-weight: 800;
+            font-size: 2rem;
+            letter-spacing: -2px;
+            cursor: pointer;
+          "
+          onclick="location.reload()"
+        >
+          Control<span style="color: var(--primary)">Panel</span>
+        </div>
+        <button
+          id="themeBtn"
+          style="
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 12px 25px;
+            border-radius: 22px;
+            color: var(--text);
+            cursor: pointer;
+          "
+        >
+          🌓 Appearance
+        </button>
+      </header>
+
+      <section id="authView" class="hero">
+        <div>
+          <h1 style="font-size: 5.5rem; line-height: 0.8; font-weight: 900">
+            Secure<br /><span style="color: var(--primary)">Protocol.</span>
+          </h1>
+          <h1 style="font-size: 1.5rem; line-height: 1.5; font-weight: 500">
+            <br /><span style="color: var(--primary)"
+              >This website is a real-time web system that combines user
+              authentication, profile management, message sending and receiving,
+              and administrative control within a single interface.</span
+            >
+          </h1>
+        </div>
+        <div class="auth-card" id="loginBox">
+          <div id="authError" class="error-msg"></div>
+          <form id="unifiedAuthForm">
+            <input
+              type="text"
+              id="uName"
+              class="input-field"
+              placeholder="სახელი"
+              required
+            />
+            <input
+              type="email"
+              id="uEmail"
+              class="input-field"
+              placeholder="ელ-ფოსტა"
+              required
+            />
+            <input
+              type="password"
+              id="uPass"
+              class="input-field"
+              placeholder="პაროლი"
+              required
+            />
+            <button type="submit" class="btn-main">იდენტიფიკაცია</button>
+          </form>
+        </div>
+        <div class="auth-card hidden" id="otpBox" style="text-align: center">
+          <h2 style="margin-bottom: 10px">🛡️ 2FA Verification</h2>
+          <div
+            id="otpDisplay"
+            style="
+              font-size: 3.8rem;
+              font-weight: 900;
+              color: var(--primary);
+              margin: 25px 0;
+              letter-spacing: 15px;
+            "
+          >
+            0000
+          </div>
+          <input
+            type="text"
+            id="otpIn"
+            class="input-field"
+            placeholder="----"
+            maxlength="4"
+            style="text-align: center; font-size: 2.2rem; letter-spacing: 12px"
+          />
+          <button id="verifyOtpBtn" class="btn-main">სისტემაში შესვლა</button>
+        </div>
+      </section>
+
+      <section id="dashboardView" class="dashboard hidden">
+        <aside class="sidebar">
+          <div class="avatar" id="avatarIcon">U</div>
+          <div style="text-align: center; margin-bottom: 35px">
+            <h3 id="sideUserName" style="font-size: 1.4rem">User</h3>
+            <small
+              id="roleBadge"
+              style="
+                color: var(--primary);
+                font-weight: 800;
+                text-transform: uppercase;
+                font-size: 0.7rem;
+                letter-spacing: 1px;
+              "
+            ></small>
+          </div>
+          <ul id="sidebarMenu">
+            <li class="sidebar-item active-tab" data-tab="mon">Dashboard</li>
+            <li id="adminSidebarTab" class="sidebar-item hidden" data-tab="adm">
+              Root Shell
+            </li>
+            <li class="sidebar-item" data-tab="prof">Profile Settings</li>
+            <li
+              id="logoutBtn"
+              class="sidebar-item"
+              style="
+                color: var(--error);
+                margin-top: 60px;
+                border-top: 1px solid var(--border);
+                padding-top: 25px;
+              "
+            >
+              Disconnect
+            </li>
+          </ul>
+        </aside>
+
+        <main>
+          <div id="tab-mon">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <h3 id="cpuVal">0%</h3>
+                <p style="color: var(--text-dim)">Processor Load</p>
+              </div>
+              <div class="stat-card">
+                <h3 id="memVal">0%</h3>
+                <p style="color: var(--text-dim)">Memory Usage</p>
+              </div>
+              <div class="stat-card">
+                <h3 id="userCount">0</h3>
+                <p style="color: var(--text-dim)">Active Nodes</p>
+              </div>
+            </div>
+            <div class="monitor-box"><canvas id="monitorCanvas"></canvas></div>
+            <div id="adminNodesList" class="data-card hidden">
+              <div
+                style="
+                  padding: 22px;
+                  font-weight: 800;
+                  border-bottom: 1px solid var(--border);
+                "
+              >
+                Network Registry
+              </div>
+              <div style="overflow-x: auto">
+                <table style="width: 100%; min-width: 500px">
+                  <thead>
+                    <tr>
+                      <th>Status</th>
+                      <th>Node Name</th>
+                      <th>Identifier (Email)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="publicRegistry"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div id="tab-adm" class="hidden">
+            <div class="admin-grid">
+              <div class="terminal-window" id="termWindow">
+                <div id="termHistory"></div>
+                <div class="term-input-line">
+                  <span style="color: var(--primary)">root@apex:~$</span>
+                  <input
+                    type="text"
+                    id="termInput"
+                    class="term-input"
+                    autocomplete="off"
+                    spellcheck="false"
+                  />
+                </div>
+              </div>
+              <div class="cmd-panel">
+                <h4
+                  style="
+                    margin-bottom: 25px;
+                    font-size: 0.8rem;
+                    letter-spacing: 2px;
+                    color: var(--text-dim);
+                  "
+                >
+                  ROOT COMMANDS
+                </h4>
+                <div class="cmd-entry">
+                  <span class="cmd-name">msg [text]</span>
+                  <span class="cmd-desc"
+                    >გლობალური შეტყობინება ყველა კვანძისთვის.</span
+                  >
+                </div>
+                <div class="cmd-entry">
+                  <span class="cmd-name">pmsg [email] [text]</span>
+                  <span class="cmd-desc"
+                    >პირადი შეტყობინება კონკრეტული მომხმარებლისთვის.</span
+                  >
+                </div>
+                <div class="cmd-entry">
+                  <span class="cmd-name">block [email]</span>
+                  <span class="cmd-desc"
+                    >მომხმარებლის სრული წაშლა სისტემიდან.</span
+                  >
+                </div>
+                <div class="cmd-entry">
+                  <span class="cmd-name">clear</span>
+                  <span class="cmd-desc">ტერმინალის ისტორიის გასუფთავება.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            id="toast"
+            style="
+              position: fixed;
+              bottom: 30px;
+              right: 30px;
+              background: #111;
+              color: #fff;
+              padding: 15px 20px;
+              border-radius: 12px;
+              border: 1px solid rgba(255, 255, 255, 0.15);
+              display: none;
+              z-index: 99999;
+              min-width: 250px;
+              font-weight: 600;
+              box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            "
+          >
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 10px;
+              "
+            >
+              <span id="toastText"></span>
+              <button
+                id="toastClose"
+                style="
+                  background: transparent;
+                  border: none;
+                  color: white;
+                  font-size: 18px;
+                  cursor: pointer;
+                "
+              >
+                ×
+              </button>
+            </div>
+          </div>
+
+          <div id="tab-prof" class="hidden">
+            <div class="auth-card" style="max-width: 550px">
+              <div class="avatar" id="profAvatar"></div>
+              <input type="file" id="avatarUpload" hidden accept="image/*" />
+              <button
+                id="uploadPhotoBtn"
+                class="btn-main"
+                style="
+                  width: auto;
+                  padding: 12px 25px;
+                  margin: 0 auto;
+                  display: block;
+                "
+              >
+                Upload New Photo
+              </button>
+              <div style="margin-top: 30px">
+                <label style="color: var(--text-dim); font-size: 0.8rem"
+                  >Username</label
+                >
+                <input
+                  type="text"
+                  id="newNameIn"
+                  class="input-field"
+                  style="margin-top: 5px"
+                />
+                <button id="updateProfileBtn" class="btn-main">
+                  Update Profile
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </section>
+    </div>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
